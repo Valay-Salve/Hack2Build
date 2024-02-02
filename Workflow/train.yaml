@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: fd-test-1
+  annotations:
+    scenarios.ai.sap.com/description: "Federated test 1"
+    scenarios.ai.sap.com/name: "fd-dataline-exec"
+    executables.ai.sap.com/description: "Test pipeline for fed l"
+    executables.ai.sap.com/name: "training-re"
+  labels:
+    scenarios.ai.sap.com/id: "fd-dataline-execid"
+    ai.sap.com/version: "2.0"
+spec:
+  imagePullSecrets:
+    - name: predictive-maintenance
+  entrypoint: fdpipeline
+  templates:
+  - name: fdpipeline
+    steps:
+    - - name: fdpredictor
+        template: fdcodeblock0
+  - name: fdcodeblock0
+    metadata:
+          labels:
+              ai.sap.com/resourcePlan: starter
+    container:
+      image: docker.io/samikshamahore/pm:03
+      command: ["/bin/sh", "-c"]
+      args:
+        - "python /app/src/train.py"
