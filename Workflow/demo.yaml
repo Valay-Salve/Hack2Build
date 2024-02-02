@@ -1,0 +1,40 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: hb123
+  annotations:
+    scenarios.ai.sap.com/description: "SAP developers tutorial scenario"
+    scenarios.ai.sap.com/name: "hb123"
+    executables.ai.sap.com/description: "CNN for acoustic scene classification"
+    executables.ai.sap.com/name: "fordemo"
+    artifacts.ai.sap.com/data.kind: "dataset"
+    artifacts.ai.sap.com/model.kind: "model"
+  labels:
+    scenarios.ai.sap.com/id: "hb123"
+    executables.ai.sap.com/id: "fordemo"
+    ai.sap.com/version: "2.0.0"
+spec:
+  imagePullSecrets:
+    - name: hack2build
+  entrypoint: sound-training
+  templates:
+    - name: sound-training
+      metadata:
+        labels:
+          ai.sap.com/resourcePlan: starter
+      inputs:
+      
+      outputs:
+        artifacts:
+          - name: hbmodel
+            path: /app/model
+            globalName: hbmodel
+            archive:
+              none: {}
+      container:
+        image: docker.io/valaysalve/hb:01
+        imagePullPolicy: Always
+        command: ["/bin/sh", "-c"]
+        args:
+          - "python"
+          - "/app/src/h2b.py"
