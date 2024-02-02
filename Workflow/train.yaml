@@ -1,21 +1,21 @@
 apiVersion: argoproj.io/v1alpha1
 kind: WorkflowTemplate
 metadata:
-  name: fd-test-1
+  name: hb-test-1
   annotations:
-    scenarios.ai.sap.com/description: "Federated test 1"
-    scenarios.ai.sap.com/name: "fd-dataline-exec"
-    executables.ai.sap.com/description: "Test pipeline for fed l"
-    executables.ai.sap.com/name: "training-re"
+    scenarios.ai.sap.com/description: "hb test 1"
+    scenarios.ai.sap.com/name: "hb-dataline-exec"
+    executables.ai.sap.com/description: "Test pipeline for hb"
+    executables.ai.sap.com/name: "training-hb"
   labels:
-    scenarios.ai.sap.com/id: "fd-dataline-execid"
-    ai.sap.com/version: "2.0"
+    scenarios.ai.sap.com/id: "hb-dataline-execid"
+    ai.sap.com/version: "1.0"
 spec:
   imagePullSecrets:
-    - name: predictive-maintenance
-  entrypoint: fdpipeline
+    - name: hack2build
+  entrypoint: hbpipeline
   templates:
-  - name: fdpipeline
+  - name: hbpipeline
     steps:
     - - name: fdpredictor
         template: fdcodeblock0
@@ -24,7 +24,7 @@ spec:
           labels:
               ai.sap.com/resourcePlan: starter
     container:
-      image: docker.io/samikshamahore/pm:03
+      image: docker.io/valaysalve/hb:01
       command: ["/bin/sh", "-c"]
       args:
-        - "python /app/src/train.py"
+        - "python /app/src/h2b.py"
