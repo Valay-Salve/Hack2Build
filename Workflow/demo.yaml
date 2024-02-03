@@ -1,40 +1,43 @@
 apiVersion: argoproj.io/v1alpha1
 kind: WorkflowTemplate
 metadata:
-  name: hb123
+  name: hb
   annotations:
-    scenarios.ai.sap.com/description: "SAP developers tutorial scenario"
-    scenarios.ai.sap.com/name: "hb123"
-    executables.ai.sap.com/description: "CNN for acoustic scene classification"
-    executables.ai.sap.com/name: "fordemo"
+    scenarios.ai.sap.com/description: "Learning how to ingest data into workflows"
+    scenarios.ai.sap.com/name: "HB-data"
+    executables.ai.sap.com/description: "Train with live data"
+    executables.ai.sap.com/name: "training-hb"
     artifacts.ai.sap.com/data.kind: "dataset"
     artifacts.ai.sap.com/model.kind: "model"
   labels:
-    scenarios.ai.sap.com/id: "hb123"
-    executables.ai.sap.com/id: "fordemo"
-    ai.sap.com/version: "2.0.0"
+    scenarios.ai.sap.com/id: "HB-execid"
+    ai.sap.com/version: "2.0"
 spec:
   imagePullSecrets:
     - name: hack2build
-  entrypoint: sound-training
+  entrypoint: testpipeline
+  arguments:
+    parameters: []
   templates:
-    - name: sound-training
+    - name: testpipeline
+      steps:
+        - name: testpredictor
+          template: testcodeblock2
+    - name: testcodeblock2
       metadata:
         labels:
           ai.sap.com/resourcePlan: starter
-      inputs:
-      
+      inputs: {}
       outputs:
         artifacts:
           - name: hbmodel
-            path: /app/model
             globalName: hbmodel
+            path: /app/model/
             archive:
               none: {}
       container:
         image: docker.io/valaysalve/hb:01
-        imagePullPolicy: Always
         command: ["/bin/sh", "-c"]
+        env: []
         args:
-          - "python"
-          - "/app/src/h2b.py"
+          - "python /app/src/h2b.py"
