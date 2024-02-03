@@ -23,21 +23,20 @@ spec:
       steps:
         - name: testpredictor
           template: testcodeblock2
-      - name: testcodeblock2
-        metadata:
-          labels:
-            ai.sap.com/resourcePlan: starter
-        inputs: {}
-        outputs:
-          artifacts:
-            - name: hbmodel
-              globalName: hbmodel
-              path: /app/model/
-              archive:
-                none: {}
-        container:
-          image: docker.io/valaysalve/hb:01
-          command: ["/bin/sh", "-c"]
-          env: []
-          args:
-            - "python /app/src/h2b.py"
+    - name: testcodeblock2
+      metadata:
+        labels:
+          ai.sap.com/resourcePlan: starter
+      inputs: {}
+      outputs:
+        artifacts:
+          - name: hbmodel
+            globalName: hbmodel
+            path: /app/model/
+            archive:
+              none: {}
+      container:
+        image: docker.io/valaysalve/hb:01
+        command: ["/bin/sh", "-c"]
+        args:
+          - "python /app/src/h2b.py"
