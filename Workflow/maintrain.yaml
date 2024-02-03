@@ -1,34 +1,30 @@
 apiVersion: argoproj.io/v1alpha1
 kind: WorkflowTemplate
 metadata:
-  name: hbhb
+  name: hb-test-2
   annotations:
-    scenarios.ai.sap.com/description: "Learning how to ingest data into workflows"
-    scenarios.ai.sap.com/name: "hbhb-data"
-    executables.ai.sap.com/description: "Train with live data"
-    executables.ai.sap.com/name: "training-hbhb"
-    artifacts.ai.sap.com/data.kind: "dataset"
-    artifacts.ai.sap.com/model.kind: "model"
+    scenarios.ai.sap.com/description: "hb test 2"
+    scenarios.ai.sap.com/name: "hb-dataline-exec2"
+    executables.ai.sap.com/description: "Test pipeline for hb"
+    executables.ai.sap.com/name: "training-hb2"
   labels:
-    scenarios.ai.sap.com/id: "hbhb-execid"
+    scenarios.ai.sap.com/id: "hb-dataline-execid2"
     ai.sap.com/version: "2.0"
 spec:
   imagePullSecrets:
     - name: hack2build
-  entrypoint: testpipeline
-  arguments:
-    parameters: []
+  entrypoint: hbpipeline
   templates:
-    - name: testpipeline
-      steps:
-        - name: testpredictor
-          template: testcodeblock2
-    - name: testcodeblock2
-      metadata:
-        labels:
-          ai.sap.com/resourcePlan: starter
-      container:
-        image: docker.io/valaysalve/hb:01
-        command: ["/bin/sh", "-c"]
-        args:
-          - "python /app/src/h2b.py"
+  - name: hbpipeline
+    steps:
+    - - name: fdpredictor
+        template: fdcodeblock0
+  - name: fdcodeblock0
+    metadata:
+          labels:
+              ai.sap.com/resourcePlan: starter
+    container:
+      image: docker.io/valaysalve/hb:01
+      command: ["/bin/sh", "-c"]
+      args:
+        - "python /app/src/h2b.py"
