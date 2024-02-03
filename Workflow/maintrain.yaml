@@ -27,14 +27,6 @@ spec:
       metadata:
         labels:
           ai.sap.com/resourcePlan: starter
-      inputs: {}
-      outputs:
-        artifacts:
-          - name: hbmodel
-            globalName: hbmodel
-            path: /app/model/
-            archive:
-              none: {}
       container:
         image: docker.io/valaysalve/hb:01
         command: ["/bin/sh", "-c"]
