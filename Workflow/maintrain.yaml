@@ -3,39 +3,41 @@ kind: WorkflowTemplate
 metadata:
   name: hbhb
   annotations:
-    scenarios.ai.sap.com/description: "Learning how to ingest data to workflows"
-    scenarios.ai.sap.com/name: "HB-exec"
+    scenarios.ai.sap.com/description: "Learning how to ingest data into workflows"
+    scenarios.ai.sap.com/name: "hbhb-data"
     executables.ai.sap.com/description: "Train with live data"
-    executables.ai.sap.com/name: "training-1"
+    executables.ai.sap.com/name: "training-hbhb"
     artifacts.ai.sap.com/data.kind: "dataset"
     artifacts.ai.sap.com/model.kind: "model"
   labels:
-    scenarios.ai.sap.com/id: "HB-execid"
+    scenarios.ai.sap.com/id: "hbhb-execid"
     ai.sap.com/version: "2.0"
 spec:
   imagePullSecrets:
     - name: hack2build
   entrypoint: testpipeline
+  arguments:
+    parameters: []
   templates:
-  - name: testpipeline
-    steps:
-    - name: testpredictor
-      template: testcodeblock2
-  - name: testcodeblock2
-    metadata:
-      labels:
-        ai.sap.com/resourcePlan: starter
-    inputs: 
-    
-    outputs:
-      artifacts:
-        - name: hacktobuildmodel
-          globalName: hacktobuildmodel
-          path: /app/model/
-          archive:
-            none: {}
-    container:
-      image: docker.io/valaysalve/hb:01
-      command: ["/bin/sh", "-c"]
-      args:
-        - "python /app/src/h2b.py"
+    - name: testpipeline
+      steps:
+        - name: testpredictor
+          template: testcodeblock2
+    - name: testcodeblock2
+      metadata:
+        labels:
+          ai.sap.com/resourcePlan: starter
+      inputs: {}
+      outputs:
+        artifacts:
+          - name: hbmodel
+            globalName: hbmodel
+            path: /app/model/
+            archive:
+              none: {}
+      container:
+        image: docker.io/valaysalve/hb:01
+        command: ["/bin/sh", "-c"]
+        env: []
+        args:
+          - "python /app/src/h2b.py"
