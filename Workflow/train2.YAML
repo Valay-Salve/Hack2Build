@@ -1,0 +1,37 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: reel_m
+  annotations:
+    scenarios.ai.sap.com/description: "SAP developers tutorial scenario"
+    scenarios.ai.sap.com/name: "ReelMatching"
+    executables.ai.sap.com/description: "CNN for acoustic scene classification"
+    executables.ai.sap.com/name: "reelmatching01"
+    artifacts.ai.sap.com/data.kind: "dataset"
+    artifacts.ai.sap.com/model.kind: "model"
+  labels:
+    scenarios.ai.sap.com/id: "reelmatching02"
+    executables.ai.sap.com/id: "reelmatching03"
+    ai.sap.com/version: "1.0.0"
+spec:
+  imagePullSecrets:
+    - name: hacktobuild
+  entrypoint: sound-training
+  templates:
+    - name: sound-training
+      metadata:
+        labels:
+          ai.sap.com/resourcePlan: starter
+      outputs:
+        artifacts:
+          - name: sound-model
+            path: /app/model
+            globalName: sound-model
+            archive:
+              none: {}
+      container:
+        image: docker.io/valaysalve/rm:01
+        imagePullPolicy: Always
+        command: ["/bin/sh", "-c"]
+        args:
+          - "python /app/src/Reel_Matching.py"
