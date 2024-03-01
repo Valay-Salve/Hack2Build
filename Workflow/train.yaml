@@ -24,7 +24,7 @@ spec:
           labels:
               ai.sap.com/resourcePlan: starter
     container:
-      image: docker.io/valaysalve/reelmatching:01
+      image: docker.io/valaysalve/rm:01
       command: ["/bin/sh", "-c"]
       args:
         - "python /app/src/Reel_Matching.py"
