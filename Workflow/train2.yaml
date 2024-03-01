@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: WorkflowTemplate
 metadata:
-  name: reel_m
+  name: reelm
   annotations:
     scenarios.ai.sap.com/description: "SAP developers tutorial scenario"
     scenarios.ai.sap.com/name: "ReelMatching"
